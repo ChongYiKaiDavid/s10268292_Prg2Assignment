@@ -5,10 +5,13 @@ using s10268292_Prg2Assignment;
 Terminal terminal = new Terminal("Changi Terminal 5");
 int boardingGateCount = 0;
 int airlineCount = 0;
+int flightCount = 0;
 Console.WriteLine("Loading Airlines...");
 LoadAirlines(terminal);
 Console.WriteLine("Loading Boarding Gates...");
 LoadBoardingGates(terminal);
+Console.WriteLine("Loading Flights...");
+LoadFlights(terminal);
 void LoadAirlines(Terminal terminal)
 {
     using (StreamReader sr = new StreamReader("airlines.csv"))
@@ -54,42 +57,47 @@ void LoadBoardingGates(Terminal terminal)
     }
 }
 //Basic feature #2
-int flightCount = 0;
-Console.WriteLine("Loading Flights...");
-using (StreamReader sr = new StreamReader("flights.csv"))
-{
-    string? s = sr.ReadLine();
-    while ((s = sr.ReadLine()) != null)
-    {
 
-        string[] flights = s.Split(',');
-        string flightNumber = flights[0];
-        string origin = flights[1];
-        string destination = flights[2];
-        DateTime expectedTime = DateTime.Parse(flights[3]);
-        string specialRequestCode = flights[4];
-        Flight flight;
-        if (specialRequestCode == "CFFT")
+
+void LoadFlights(Terminal terminal)
+{
+    using (StreamReader sr = new StreamReader("flights.csv"))
+    {
+        string? s = sr.ReadLine();
+        while ((s = sr.ReadLine()) != null)
         {
-            flight = new CFFTFlight(flightNumber, origin, destination, expectedTime);
+
+            string[] flights = s.Split(',');
+            string flightNumber = flights[0];
+            string origin = flights[1];
+            string destination = flights[2];
+            DateTime expectedTime = DateTime.Parse(flights[3]);
+            string specialRequestCode = flights[4];
+            Flight flight;
+            if (specialRequestCode == "CFFT")
+            {
+                flight = new CFFTFlight(flightNumber, origin, destination, expectedTime);
+            }
+            else if (specialRequestCode == "DDJB")
+            {
+                flight = new DDJBFlight(flightNumber, origin, destination, expectedTime);
+            }
+            else if (specialRequestCode == "LWTT")
+            {
+                flight = new LWTTFlight(flightNumber, origin, destination, expectedTime);
+            }
+            else
+            {
+                flight = new NORMFlight(flightNumber, origin, destination, expectedTime);
+            }
+            //adding flight object into the dictionary
+            terminal.Flights.Add(flightNumber, flight);
+            flightCount++;
         }
-        else if (specialRequestCode == "DDJB")
-        {
-            flight = new DDJBFlight(flightNumber, origin, destination, expectedTime);
-        }
-        else if (specialRequestCode == "LWTT")
-        {
-            flight = new LWTTFlight(flightNumber, origin, destination, expectedTime);
-        }
-        else
-        {
-            flight = new NORMFlight(flightNumber, origin, destination, expectedTime);
-        }
-        //adding flight object into the dictionary
-        terminal.Flights.Add(flightNumber, flight);
-        flightCount++;
+        Console.WriteLine($"{flightCount} Flights Loaded!");
     }
 }
+
 //Basic feature 3
 //Display menu
 //while (true)
