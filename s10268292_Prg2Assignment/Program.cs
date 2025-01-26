@@ -2,10 +2,12 @@
 using s10268292_Prg2Assignment;
 //Basic feature #1
 Terminal terminal = new Terminal("Changi Terminal 5");
+int boardingGateCount = 0;
+int airlineCount = 0;
 LoadAirlines(terminal);
 LoadBoardingGates(terminal);
-
-static void LoadAirlines(Terminal terminal)
+Console.WriteLine("Loading Airlines...");
+void LoadAirlines(Terminal terminal)
 {
     using (StreamReader sr = new StreamReader("airlines.csv"))
     {
@@ -20,10 +22,13 @@ static void LoadAirlines(Terminal terminal)
             {
                 Console.WriteLine("Airline already exists");
             }
+            airlineCount++;
         }
+        Console.WriteLine($"{airlineCount} Airlines Loaded!");
     }
 }
-static void LoadBoardingGates(Terminal terminal)
+Console.WriteLine("Loading Boarding Gates...");
+void LoadBoardingGates(Terminal terminal)
 {
     using (StreamReader sr = new StreamReader("boardinggates.csv"))
     {
@@ -41,7 +46,9 @@ static void LoadBoardingGates(Terminal terminal)
             {
                 Console.WriteLine("Boarding gate already exists");
             }
+            boardingGateCount++;
         }
+        Console.WriteLine($"{boardingGateCount} Boardings Gate Loaded!")
     }
 }
 //Basic feature #2
