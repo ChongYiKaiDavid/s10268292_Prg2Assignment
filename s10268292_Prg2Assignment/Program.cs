@@ -1,5 +1,49 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using s10268292_Prg2Assignment;
+//Basic feature #1
+Terminal terminal = new Terminal("Changi Terminal 5");
+LoadAirlines(terminal);
+LoadBoardingGates(terminal);
+
+static void LoadAirlines(Terminal terminal)
+{
+    using (StreamReader sr = new StreamReader("airlines.csv"))
+    {
+        string? s = sr.ReadLine();
+        while ((s = sr.ReadLine()) != null)
+        {
+            string[] airlines = s.Split(',');
+            string name = airlines[0];
+            string code = airlines[1];
+            Airline airline = new Airline(name, code);
+            if (!terminal.AddAirline(airline))
+            {
+                Console.WriteLine("Airline already exists");
+            }
+        }
+    }
+}
+static void LoadBoardingGates(Terminal terminal)
+{
+    using (StreamReader sr = new StreamReader("boardinggates.csv"))
+    {
+        string? s = sr.ReadLine();
+        while ((s = sr.ReadLine()) != null)
+        {
+            string[] boardingGates = s.Split(',');
+            string gateName = boardingGates[0];
+            bool reqCFFT = boardingGates[1] == "1";
+            bool reqDDJB = boardingGates[2] == "1";
+            bool reqLWTT = boardingGates[3] == "1";
+
+            BoardingGate gate = new BoardingGate(gateName, reqCFFT, reqDDJB, reqLWTT);
+            if (!terminal.AddBoardingGate(gate))
+            {
+                Console.WriteLine("Boarding gate already exists");
+            }
+        }
+    }
+}
 //Basic feature #2
 Dictionary<string, Flight> flightDictionary = new Dictionary<string, Flight>();
 using (StreamReader sr = new StreamReader("flights.csv"))
