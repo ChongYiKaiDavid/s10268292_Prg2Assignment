@@ -1,7 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using s10268292_Prg2Assignment;
-//Basic feature #1
-
 //Basic feature #2
 Dictionary<string, Flight> flightDictionary = new Dictionary<string, Flight>();
 using (StreamReader sr = new StreamReader("flights.csv"))
