@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using s10268292_Prg2Assignment;
 //Basic feature #1
+
 Terminal terminal = new Terminal("Changi Terminal 5");
 LoadAirlines(terminal);
 LoadBoardingGates(terminal);
@@ -45,7 +46,8 @@ static void LoadBoardingGates(Terminal terminal)
     }
 }
 //Basic feature #2
-
+int flightCount = 0;
+Console.WriteLine("Loading Flights...");
 using (StreamReader sr = new StreamReader("flights.csv"))
 {
     string? s = sr.ReadLine();
@@ -77,6 +79,7 @@ using (StreamReader sr = new StreamReader("flights.csv"))
         }
         //adding flight object into the dictionary
         terminal.Flights.Add(flightNumber, flight);
+        flightCount++;
     }
 }
 //Basic feature 3
