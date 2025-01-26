@@ -16,7 +16,7 @@ namespace s10268292_Prg2Assignment
         public string Origin { get; set; }
         public string Destination { get; set; }
         public DateTime ExpectedTime { get; set; }
-        public string Status { get; set; } = "On Time";
+        public string Status { get; set; } = "Scheduled";
 
         public Flight() { }
         public Flight(string flightNumber, string origin, string destination, DateTime expectedTime)

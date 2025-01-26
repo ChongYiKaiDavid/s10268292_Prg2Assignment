@@ -76,7 +76,7 @@ using (StreamReader sr = new StreamReader("flights.csv"))
             flight = new NORMFlight(flightNumber, origin, destination, expectedTime);
         }
         //adding flight object into the dictionary
-        flights.Add(flightNumber, flight);
+        terminal.Flights.Add(flightNumber, flight);
     }
 }
 //Basic feature 3
