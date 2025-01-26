@@ -5,9 +5,10 @@ using s10268292_Prg2Assignment;
 Terminal terminal = new Terminal("Changi Terminal 5");
 int boardingGateCount = 0;
 int airlineCount = 0;
-LoadAirlines(terminal);
-LoadBoardingGates(terminal);
 Console.WriteLine("Loading Airlines...");
+LoadAirlines(terminal);
+Console.WriteLine("Loading Boarding Gates...");
+LoadBoardingGates(terminal);
 void LoadAirlines(Terminal terminal)
 {
     using (StreamReader sr = new StreamReader("airlines.csv"))
@@ -28,7 +29,7 @@ void LoadAirlines(Terminal terminal)
         Console.WriteLine($"{airlineCount} Airlines Loaded!");
     }
 }
-Console.WriteLine("Loading Boarding Gates...");
+
 void LoadBoardingGates(Terminal terminal)
 {
     using (StreamReader sr = new StreamReader("boardinggates.csv"))
