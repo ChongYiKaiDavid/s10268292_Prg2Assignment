@@ -49,7 +49,7 @@ void LoadBoardingGates(Terminal terminal)
             }
             boardingGateCount++;
         }
-        Console.WriteLine($"{boardingGateCount} Boardings Gate Loaded!")
+        Console.WriteLine($"{boardingGateCount} Boardings Gate Loaded!");
     }
 }
 //Basic feature #2
@@ -91,46 +91,46 @@ using (StreamReader sr = new StreamReader("flights.csv"))
 }
 //Basic feature 3
 //Display menu
-while (true)
-{
-    try
-    {
-        Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================");
-        Console.WriteLine("1. List All Flights");
-        Console.WriteLine("0. Exit");
-        Console.Write("Please select your option: ");
-        string choice = Console.ReadLine();
+//while (true)
+//{
+//    try
+//    {
+//        Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================");
+//        Console.WriteLine("1. List All Flights");
+//        Console.WriteLine("0. Exit");
+//        Console.Write("Please select your option: ");
+//        string choice = Console.ReadLine();
 
-        if (choice == "1")
-        {
-            ListAllFLights(flightDictionary);
-        }
-        else if (choice == "0")
-        {
-            Console.WriteLine("Goodbye!");
-            break;
-        }
-        else
-        {
-            Console.WriteLine("Invalid option, please try again");
-        }
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine($"An error has occurred: {e.Message}");
-        Console.WriteLine("Please try again.");
-    }
-}
-void ListAllFLights(Dictionary<string, Flight> flightDictionary)
-{
-    Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================");
-    Console.WriteLine($"{"Flight Number" +
-        "", -15} {"Airline Name", -20} { "Origin", -15} {"Destination", -15} {"Expected Departure/Arrival Time", -20}");
-    foreach (var flight in flightDictionary.Values)
-    {
-        Airline airline = new Terminal().GetAirlineFromFlight(flight); //NOT DONE YET STILL NEED DO BASIC FEATURE 1 FIRST THEN IT WILL WORK
+//        if (choice == "1")
+//        {
+//            ListAllFLights(terminal.Flights);
+//        }
+//        else if (choice == "0")
+//        {
+//            Console.WriteLine("Goodbye!");
+//            break;
+//        }
+//        else
+//        {
+//            Console.WriteLine("Invalid option, please try again");
+//        }
+//    }
+//    catch (Exception e)
+//    {
+//        Console.WriteLine($"An error has occurred: {e.Message}");
+//        Console.WriteLine("Please try again.");
+//    }
+//}
+//void ListAllFLights(Dictionary<string, Flight> flightDictionary)
+//{
+//    Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================");
+//    Console.WriteLine($"{"Flight Number" +
+//        "", -15} {"Airline Name", -20} { "Origin", -15} {"Destination", -15} {"Expected Departure/Arrival Time", -20}");
+//    foreach (var flight in flightDictionary.Values)
+//    {
+//        Airline airline = new Terminal().GetAirlineFromFlight(flight); //NOT DONE YET STILL NEED DO BASIC FEATURE 1 FIRST THEN IT WILL WORK
 
-        Console.WriteLine($"{flight.FlightNumber, -15} {airline.Name, -20} {flight.Origin, -15} {flight.Destination, -15} {flight.ExpectedTime, -20}");
-    }
-}
+//        Console.WriteLine($"{flight.FlightNumber, -15} {airline.Name, -20} {flight.Origin, -15} {flight.Destination, -15} {flight.ExpectedTime, -20}");
+//    }
+//}
 
