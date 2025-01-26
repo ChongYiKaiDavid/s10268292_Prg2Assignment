@@ -18,7 +18,7 @@ namespace s10268292_Prg2Assignment
         public Dictionary<string, Flight> Flights { get; set; } = new Dictionary<string, Flight>();
         public Dictionary<string, BoardingGate> BoardingGates { get; set; } = new Dictionary<string, BoardingGate>();
         public Dictionary<string, double> GateFees { get; set; } = new Dictionary<string, double>();
-        *-
+        
         public Terminal() { }
         public Terminal(string terminalName)
         {
