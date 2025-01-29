@@ -136,12 +136,12 @@ DisplayMenu(terminal);
 void ListAllFLights(Terminal terminal)
 {
     Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================");
-    Console.WriteLine($"{"Flight Number", -15} {"Airline Name", -20} { "Origin", -15} {"Destination", -25} {"Expected Departure/Arrival Time", -20}");
+    Console.WriteLine($"{"Flight Number", -16} {"Airline Name", -23} { "Origin", -27} {"Destination", -25} {"Expected Departure/Arrival Time", -20}");
     foreach (var flight in terminal.Flights.Values)
     {
         Airline airline = terminal.GetAirlineFromFlight(flight);
 
-        Console.WriteLine($"{flight.FlightNumber, -15} {airline.Name, -20} {flight.Origin, -15} {flight.Destination, -25} {flight.ExpectedTime, -20}");
+        Console.WriteLine($"{flight.FlightNumber, -16} {airline.Name, -23} {flight.Origin, -27} {flight.Destination, -25} {flight.ExpectedTime, -20}");
     }
 }
 
