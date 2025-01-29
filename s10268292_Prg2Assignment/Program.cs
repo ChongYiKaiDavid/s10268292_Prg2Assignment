@@ -122,10 +122,10 @@ void DisplayMenu(Terminal terminal)
             {
                 ListAllFLights(terminal);
             }
-            //else if (choice == "2")
-            //{
-            //    ListBoardingGates(terminal);
-            //}
+            else if (choice == "2")
+            {
+                ListBoardingGates(terminal);
+            }
             else if (choice == "3")
             {
                 AssignBoardingGate(terminal);
@@ -134,10 +134,10 @@ void DisplayMenu(Terminal terminal)
             //{
             //    CreateFlight(terminal);
             //}
-            //else if (choice == "5")
-            //{
-            //    DisplayAirlineFlights(terminal);
-            //}
+            else if (choice == "5")
+            {
+                DisplayAirlineFlights(terminal);
+            }
             //else if (choice == "6")
             //{
             //    ModifyFlightDetails(terminal);
@@ -175,6 +175,17 @@ void ListAllFLights(Terminal terminal)
         Console.WriteLine($"{flight.FlightNumber, -16} {airline.Name, -23} {flight.Origin, -27} {flight.Destination, -25} {flight.ExpectedTime, -20}");
     }
 }
+    //Basic feature 4
+void ListBoardingGates(Terminal terminal)
+{
+    Console.WriteLine("=============================================\r\nList of Boarding Gates for Changi Airport Terminal 5\r\n=============================================");
+    Console.WriteLine($"{"Gate Name",-16} {"Supports DDJB",-23} {"Supports CFFT",-27} {"Supports LWTT",-25}");
+    foreach (var gate in terminal.BoardingGates.Values)
+    {
+        Console.WriteLine($"{gate.GateName,-16} {gate.SupportsDDJB,-23} {gate.SupportsCFFT,-27} {gate.SupportsLWTT,-25}");
+    }
+}
+
 //Basic feature 5
 void AssignBoardingGate(Terminal terminal)
 {
@@ -274,6 +285,4 @@ void AssignBoardingGate(Terminal terminal)
     Console.WriteLine($"Flight {flight.FlightNumber} has been assigned to Boarding Gate {gate.GateName}!");
 }
 
-
-
-
+//Basic Feature 7
