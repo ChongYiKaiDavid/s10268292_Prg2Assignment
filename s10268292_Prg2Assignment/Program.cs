@@ -108,12 +108,42 @@ void DisplayMenu(Terminal terminal)
         {
             Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================");
             Console.WriteLine("1. List All Flights");
+            Console.WriteLine("2. List Boarding Gates");
+            Console.WriteLine("3. Assign a Boarding Gate to a Flight");
+            Console.WriteLine("4. Create Flight");
+            Console.WriteLine("5. Display Airline Flights");
+            Console.WriteLine("6. Modify Flight Details");
+            Console.WriteLine("7. Display Flight Schedule");
             Console.WriteLine("0. Exit");
             Console.Write("Please select your option: ");
             string choice = Console.ReadLine();
             if (choice == "1")
             {
                 ListAllFLights(terminal);
+            }
+            else if (choice == "2")
+            {
+                ListBoardingGates(terminal);
+            }
+            else if (choice == "3")
+            {
+                AssignBoardingGate(terminal);
+            }
+            else if (choice == "4")
+            {
+                CreateFlight(terminal);
+            }
+            else if (choice == "5")
+            {
+                DisplayAirlineFlights(terminal);
+            }
+            else if (choice == "6")
+            {
+                ModifyFlightDetails(terminal);
+            }
+            else if (choice == "7")
+            {
+                DisplayFlightSchedule(terminal);
             }
             else if (choice == "0")
             {
@@ -144,4 +174,5 @@ void ListAllFLights(Terminal terminal)
         Console.WriteLine($"{flight.FlightNumber, -16} {airline.Name, -23} {flight.Origin, -27} {flight.Destination, -25} {flight.ExpectedTime, -20}");
     }
 }
+//Basic feature 4
 
