@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using s10268292_Prg2Assignment;
 using System.Net.NetworkInformation;
+using System.Security.Cryptography;
 //Basic feature #1
 
 Terminal terminal = new Terminal("Changi Terminal 5");
@@ -286,3 +287,50 @@ void AssignBoardingGate(Terminal terminal)
 }
 
 //Basic Feature 7
+void DisplayAirlineFlights(Terminal terminal)
+{
+    Console.WriteLine("=============================================\r\nList of Airlines for Changi Airport Terminal 5\r\n=============================================");
+    foreach (var airline in terminal.Airlines.Values)
+    {
+        Console.WriteLine($"Airline Code: {airline.Code}, Airline Name: {airline.Name}");
+    }
+
+    Console.Write("Enter Airline Code: ");
+    string airlineCode = Console.ReadLine().ToUpper();
+
+    if (!terminal.Airlines.ContainsKey(airlineCode))
+    {
+        Console.WriteLine("Airline does not exist.");
+        return;
+    }
+
+    Airline selectedAirline = terminal.Airlines[airlineCode];
+    Console.WriteLine($"=============================================\r\nList of Flights for {selectedAirline.Name}\r\n=============================================");
+    Console.WriteLine($"{"Flight Number",-15} {"Airline Name",-20} {"Origin",-15} {"Destination",-15} {"Expected Departure/Arrival Time",-30}");
+
+    foreach (var flight in terminal.Flights.Values.Where(f => terminal.GetAirlineFromFlight(f).Code == airlineCode))
+    {
+        Console.WriteLine($"{flight.FlightNumber,-15} {selectedAirline.Name,-20} {flight.Origin,-15} {flight.Destination,-15} {flight.ExpectedTime,-30}");
+    }
+
+    Console.Write("Enter the Flight Number: ");
+    string flightNumber = Console.ReadLine().ToUpper();
+
+    if (!terminal.Flights.ContainsKey(flightNumber))
+    {
+        Console.WriteLine("Flight does not exist.");
+        return;
+    }
+
+    Flight selectedFlight = terminal.Flights[flightNumber];
+    BoardingGate? gate = terminal.BoardingGates.Values.FirstOrDefault(g => g.Flight == selectedFlight);
+
+    Console.WriteLine("=============================================\r\nFlight Details\r\n=============================================");
+    Console.WriteLine($"Flight Number: {selectedFlight.FlightNumber}");
+    Console.WriteLine($"Airline Name: {selectedAirline.Name}");
+    Console.WriteLine($"Origin: {selectedFlight.Origin}");
+    Console.WriteLine($"Destination: {selectedFlight.Destination}");
+    Console.WriteLine($"Expected Departure/Arrival Time: {selectedFlight.ExpectedTime}");
+    Console.WriteLine($"Special Request Code: {(selectedFlight is CFFTFlight ? "CFFT" : selectedFlight is DDJBFlight ? "DDJB" : selectedFlight is LWTTFlight ? "LWTT" : "None")}");
+    Console.WriteLine($"Boarding Gate: {(gate != null ? gate.GateName : "None")}");
+}
