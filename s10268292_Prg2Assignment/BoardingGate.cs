@@ -19,11 +19,11 @@ namespace s10268292_Prg2Assignment
         public Flight? Flight { get; set; } = null;
 
         public BoardingGate() { }
-        public BoardingGate(string gateName, bool supportsCFFT, bool supportsDDJB, bool supportsLWTT)
+        public BoardingGate(string gateName, bool supportsDDJB, bool supportsCFFT, bool supportsLWTT)
         {
             GateName = gateName;
-            SupportsCFFT = supportsCFFT;
             SupportsDDJB = supportsDDJB;
+            SupportsCFFT = supportsCFFT;
             SupportsLWTT = supportsLWTT;
         }
 

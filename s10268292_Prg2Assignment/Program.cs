@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using s10268292_Prg2Assignment;
+using System.Net.NetworkInformation;
 //Basic feature #1
 
 Terminal terminal = new Terminal("Changi Terminal 5");
@@ -42,11 +43,11 @@ void LoadBoardingGates(Terminal terminal)
         {
             string[] boardingGates = s.Split(',');
             string gateName = boardingGates[0];
-            bool reqCFFT = boardingGates[1] == "1";
-            bool reqDDJB = boardingGates[2] == "1";
-            bool reqLWTT = boardingGates[3] == "1";
+            bool reqDDJB = Convert.ToBoolean(boardingGates[1]);
+            bool reqCFFT = Convert.ToBoolean(boardingGates[2]);
+            bool reqLWTT = Convert.ToBoolean(boardingGates[3]);
 
-            BoardingGate gate = new BoardingGate(gateName, reqCFFT, reqDDJB, reqLWTT);
+            BoardingGate gate = new BoardingGate(gateName, reqDDJB, reqCFFT, reqLWTT);
             if (!terminal.AddBoardingGate(gate))
             {
                 Console.WriteLine("Boarding gate already exists");
@@ -121,30 +122,30 @@ void DisplayMenu(Terminal terminal)
             {
                 ListAllFLights(terminal);
             }
-            else if (choice == "2")
-            {
-                ListBoardingGates(terminal);
-            }
+            //else if (choice == "2")
+            //{
+            //    ListBoardingGates(terminal);
+            //}
             else if (choice == "3")
             {
                 AssignBoardingGate(terminal);
             }
-            else if (choice == "4")
-            {
-                CreateFlight(terminal);
-            }
-            else if (choice == "5")
-            {
-                DisplayAirlineFlights(terminal);
-            }
-            else if (choice == "6")
-            {
-                ModifyFlightDetails(terminal);
-            }
-            else if (choice == "7")
-            {
-                DisplayFlightSchedule(terminal);
-            }
+            //else if (choice == "4")
+            //{
+            //    CreateFlight(terminal);
+            //}
+            //else if (choice == "5")
+            //{
+            //    DisplayAirlineFlights(terminal);
+            //}
+            //else if (choice == "6")
+            //{
+            //    ModifyFlightDetails(terminal);
+            //}
+            //else if (choice == "7")
+            //{
+            //    DisplayFlightSchedule(terminal);
+            //}
             else if (choice == "0")
             {
                 Console.WriteLine("Goodbye!");
@@ -174,5 +175,105 @@ void ListAllFLights(Terminal terminal)
         Console.WriteLine($"{flight.FlightNumber, -16} {airline.Name, -23} {flight.Origin, -27} {flight.Destination, -25} {flight.ExpectedTime, -20}");
     }
 }
-//Basic feature 4
+//Basic feature 5
+void AssignBoardingGate(Terminal terminal)
+{
+    Console.WriteLine("=============================================\r\nAssign a Boarding Gate to a Flight\r\n=============================================");
+    Flight flight;
+    while (true)
+    {
+        Console.Write("Enter Flight Number: ");
+        string flightNumber = Console.ReadLine().ToUpper();
+        if (!terminal.Flights.ContainsKey(flightNumber))
+        {
+            Console.WriteLine("Flight does not exist");
+            return;
+        }
+        else
+        {
+            flight = terminal.Flights[flightNumber];
+            break;
+        }
+    }
+    
+    
+
+    
+
+    BoardingGate gate;
+    string? gateName = null;
+    while (true)
+    {
+        Console.Write("Enter Boarding Gate Name: ");
+        gateName = Console.ReadLine().ToUpper();
+        if (!terminal.BoardingGates.ContainsKey(gateName))
+        {
+            Console.WriteLine("Gate does not exist");
+            return;
+        }
+        else
+        {
+            gate = terminal.BoardingGates[gateName];
+            if (gate.Flight != null)
+            {
+                Console.WriteLine("This gate is already assigned to another flight. Please try again.");
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    
+    Console.WriteLine($"Flight Number: {flight.FlightNumber}");
+    Console.WriteLine($"Origin: {flight.Origin}");
+    Console.WriteLine($"Destination: {flight.Destination}");
+    Console.WriteLine($"Expected Time: {flight.ExpectedTime}");
+    Console.WriteLine($"Special Request Code: {(flight is CFFTFlight ? "CFFT" : flight is DDJBFlight ? "DDJB" : flight is LWTTFlight ? "LWTT" : "None")}");
+
+    BoardingGate boardinggate = terminal.BoardingGates[gateName];
+
+            Console.WriteLine($"Boarding Gate Name: {boardinggate.GateName}");
+            Console.WriteLine($"Supports DDJB: {boardinggate.SupportsDDJB}");
+            Console.WriteLine($"Supports CFFT: {boardinggate.SupportsCFFT}");
+            Console.WriteLine($"Supports LWTT: {boardinggate.SupportsLWTT}");
+        
+        
+   
+
+    gate.Flight = flight;
+    // Allow user to update the flight status
+    Console.WriteLine("Would you like to update the status of the flight? (Y/N): ");
+    string updateStatus = Console.ReadLine().ToUpper();
+    if (updateStatus == "Y")
+    {
+        Console.WriteLine("1. Delayed");
+        Console.WriteLine("2. Boarding");
+        Console.WriteLine("3. On Time");
+        Console.Write("Please select the new status of the flight: ");
+        string statusChoice = Console.ReadLine();
+
+        if (statusChoice == "1")
+        {
+            flight.Status = "Delayed";
+        }
+        else if (statusChoice == "2")
+        {
+            flight.Status = "Boarding";
+        }
+        else if (statusChoice == "3")
+        {
+            flight.Status = "On Time";
+        }
+        else
+        {
+            Console.WriteLine("Invalid choice, setting status to 'On Time' by default.");
+            flight.Status = "On Time";
+        }
+    }
+    Console.WriteLine($"Flight {flight.FlightNumber} has been assigned to Boarding Gate {gate.GateName}!");
+}
+
+
+
 
