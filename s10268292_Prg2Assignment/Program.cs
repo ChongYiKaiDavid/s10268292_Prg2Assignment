@@ -487,7 +487,7 @@ void ModifyFlightDetails(Terminal terminal)
     Console.WriteLine("=============================================\r\nList of Airlines for Changi Airport Terminal 5\r\n=============================================");
     foreach (var airline in terminal.Airlines.Values)
     {
-        Console.WriteLine($"Airline Code: {airline.Code}, Airline Name: {airline.Name}");
+        Console.WriteLine($"Airline Code {airline.Code}, Airline Name {airline.Name}");
     }
 
     string airlineCode;
@@ -671,3 +671,5 @@ void ModifyFlightDetails(Terminal terminal)
     BoardingGate? gate = terminal.BoardingGates.Values.FirstOrDefault(g => g.Flight == selectedFlight);
     Console.WriteLine($"Boarding Gate: {(gate != null ? gate.GateName : "None")}");
 }
+//advanced feature b
+
