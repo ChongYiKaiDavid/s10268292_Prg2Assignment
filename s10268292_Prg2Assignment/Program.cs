@@ -131,10 +131,10 @@ void DisplayMenu(Terminal terminal)
             {
                 AssignBoardingGate(terminal);
             }
-            //else if (choice == "4")
-            //{
-            //    CreateFlight(terminal);
-            //}
+            else if (choice == "4")
+            {
+                CreateFlight(terminal);
+            }
             else if (choice == "5")
             {
                 DisplayAirlineFlights(terminal);
@@ -285,6 +285,152 @@ void AssignBoardingGate(Terminal terminal)
     }
     Console.WriteLine($"Flight {flight.FlightNumber} has been assigned to Boarding Gate {gate.GateName}!");
 }
+//Basic Feature 6
+
+bool FlightExists(string flightNumber)
+{
+    try
+    {
+        using (StreamReader sr = new StreamReader("flights.csv"))
+        {
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                string[] flightData = line.Split(',');
+                if (flightData.Length > 0 && flightData[0].ToUpper() == flightNumber)
+                {
+                    return true; //flight number already exists
+                }
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error reading flights.csv: {ex.Message}");
+    }
+    return false;
+}
+
+void CreateFlight(Terminal terminal)
+{
+    while (true) // Keep looping to allow multiple flight entries
+    { 
+        string flightNumber;
+        while (true) // Keep asking for a valid flight number
+        {
+            Console.Write("Enter Flight Number: ");
+            flightNumber = Console.ReadLine().Trim().ToUpper();
+
+            if (string.IsNullOrWhiteSpace(flightNumber))
+            {
+                Console.WriteLine("Flight Number cannot be empty.");
+            }
+            else if (terminal.Flights.ContainsKey(flightNumber))
+            {
+                Console.WriteLine("A flight with this number already exists.");
+            }
+            else if (FlightExists(flightNumber)) // Check flights.csv
+            {
+                Console.WriteLine("A flight with this number already exists in flights.csv.");
+            }
+            else
+            {
+                break; // Valid flight number
+            }
+        }
+
+        // Get Origin and Destination
+        Console.Write("Enter Origin: ");
+        string origin = Console.ReadLine();
+
+        Console.Write("Enter Destination: ");
+        string destination = Console.ReadLine();
+
+        // Get Expected Departure/Arrival Time
+        DateTime expectedTime;
+        while (true)
+        {
+            Console.Write("Enter Expected Departure/Arrival Time (yyyy-MM-dd hh:mm): ");
+            string timeInput = Console.ReadLine();
+            if (DateTime.TryParse(timeInput, out expectedTime))
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Invalid date format. Please use 'yyyy-MM-dd hh:mm'.");
+            }
+        }
+
+        // Ask for Special Request Code (Must be CFFT, DDJB, LWTT, or None)
+        string specialRequestCode;
+        while (true)
+        {
+            Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
+            specialRequestCode = Console.ReadLine().ToUpper();
+
+            if (specialRequestCode == "CFFT" || specialRequestCode == "DDJB" || specialRequestCode == "LWTT")
+            {
+                break;
+            }
+            else if (specialRequestCode == "NONE")
+            {
+                specialRequestCode = "";
+                break;
+            }
+
+
+            else
+            {
+                Console.WriteLine("Invalid special request code. It must be CFFT, DDJB, LWTT, or None.");
+            }
+        }
+
+        // Create a new Flight object
+        Flight newFlight = new NORMFlight(flightNumber, origin, destination, expectedTime);
+
+        // Add flight to the terminal
+        terminal.Flights.Add(flightNumber, newFlight);
+
+        // Append new flight to flights.csv
+        try
+        {
+            using (StreamWriter sw = new StreamWriter("flights.csv", true))
+            {
+                sw.WriteLine($"{flightNumber},{origin},{destination},{expectedTime},{specialRequestCode}");
+            }
+            Console.WriteLine($"Flight {flightNumber} has been added!");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving flight: {ex.Message}");
+        }
+
+        // Ask if they want to add another flight
+        while (true)
+        {
+            Console.Write("Would you like to add another flight? (Y/N): ");
+            string continueChoice = Console.ReadLine().Trim().ToUpper();
+
+            if (continueChoice == "N")
+            {
+                
+                DisplayMenu(terminal);
+                return; // Exit this method and return to the menu
+            }
+            else if (continueChoice == "Y")
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice. Please enter 'Y' to add another flight or 'N' to return to the main menu.");
+            }
+        }
+    }
+}
+
+
 
 //Basic Feature 7
 void DisplayAirlineFlights(Terminal terminal)
