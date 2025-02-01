@@ -672,4 +672,90 @@ void ModifyFlightDetails(Terminal terminal)
     Console.WriteLine($"Boarding Gate: {(gate != null ? gate.GateName : "None")}");
 }
 //advanced feature b
+void DisplayTotalFeePerAirline(Terminal terminal)
+{
+    // Check if all flights have been assigned boarding gates
+    var unassignedFlights = terminal.Flights.Values.Where(f => !terminal.BoardingGates.Values.Any(g => g.Flight == f)).ToList();
+    if (unassignedFlights.Any())
+    {
+        Console.WriteLine("The following flights have not been assigned boarding gates:");
+        foreach (var flight in unassignedFlights)
+        {
+            Console.WriteLine($"Flight Number: {flight.FlightNumber}, Airline: {terminal.GetAirlineFromFlight(flight).Name}");
+        }
+        Console.WriteLine("Please assign boarding gates to all flights before running this feature again.");
+        return;
+    }
+
+    double totalFees = 0;
+    double totalDiscounts = 0;
+
+    Console.WriteLine("=============================================\r\nTotal Fees Per Airline\r\n=============================================");
+
+    foreach (var airline in terminal.Airlines.Values)
+    {
+        double airlineFees = 0;
+        double airlineDiscounts = 0;
+
+        foreach (var flight in airline.Flights.Values)
+        {
+            double flightFee = 0;
+
+            // Apply the respective fee for Origin or Destination being Singapore (SIN)
+            if (flight.Origin == "Singapore (SIN)")
+            {
+                flightFee += 800;
+            }
+            if (flight.Destination == "Singapore (SIN)")
+            {
+                flightFee += 500;
+            }
+
+            // Apply the Boarding Gate Base Fee
+            flightFee += 300;
+
+            // Apply the Additional Fee for Special Request Code
+            if (flight is CFFTFlight)
+            {
+                flightFee += 200;
+            }
+            else if (flight is DDJBFlight)
+            {
+                flightFee += 150;
+            }
+            else if (flight is LWTTFlight)
+            {
+                flightFee += 100;
+            }
+
+            airlineFees += flightFee;
+        }
+
+        // Compute the subtotal of discounts to be applied for each Airline based on the Promotional Conditions
+        // (Assuming some promotional conditions for demonstration purposes)
+        if (airline.Flights.Count > 5)
+        {
+            airlineDiscounts = airlineFees * 0.1; // 10% discount for more than 5 flights
+        }
+
+        double finalFees = airlineFees - airlineDiscounts;
+        totalFees += airlineFees;
+        totalDiscounts += airlineDiscounts;
+
+        Console.WriteLine($"Airline: {airline.Name}");
+        Console.WriteLine($"Original Subtotal: ${airlineFees}");
+        Console.WriteLine($"Discounts: -${airlineDiscounts}");
+        Console.WriteLine($"Final Total: ${finalFees}");
+        Console.WriteLine("=============================================");
+    }
+
+    double finalTotalFees = totalFees - totalDiscounts;
+    double discountPercentage = (totalDiscounts / totalFees) * 100;
+
+    Console.WriteLine("=============================================\r\nSummary\r\n=============================================");
+    Console.WriteLine($"Subtotal of all Airline fees: ${totalFees}");
+    Console.WriteLine($"Subtotal of all Airline discounts: -${totalDiscounts}");
+    Console.WriteLine($"Final total of Airline fees collected: ${finalTotalFees}");
+    Console.WriteLine($"Percentage of discounts over final total: {discountPercentage}%");
+}
 
