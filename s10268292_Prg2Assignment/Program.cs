@@ -152,6 +152,10 @@ void DisplayMenu(Terminal terminal)
             {
                 ProcessUnassignedFlights(terminal);
             }
+            else if (choice == "9")
+            {
+                DisplayTotalFeePerAirline(terminal);
+            }
             else if (choice == "0")
             {
                 Console.WriteLine("Goodbye!");
