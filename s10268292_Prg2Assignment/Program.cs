@@ -446,13 +446,19 @@ void DisplayAirlineFlights(Terminal terminal)
         Console.WriteLine($"Airline Code: {airline.Code}, Airline Name: {airline.Name}");
     }
 
-    Console.Write("Enter Airline Code: ");
-    string airlineCode = Console.ReadLine().ToUpper();
-
-    if (!terminal.Airlines.ContainsKey(airlineCode))
+    string airlineCode;
+    while (true)
     {
-        Console.WriteLine("Airline does not exist.");
-        return;
+        Console.Write("Enter Airline Code: ");
+        airlineCode = Console.ReadLine().ToUpper();
+        if (string.IsNullOrEmpty(airlineCode) || !terminal.Airlines.ContainsKey(airlineCode))
+        {
+            Console.WriteLine("Invalid Airline Code. Please try again.");
+        }
+        else
+        {
+            break;
+        }
     }
 
     Airline selectedAirline = terminal.Airlines[airlineCode];
@@ -464,13 +470,19 @@ void DisplayAirlineFlights(Terminal terminal)
         Console.WriteLine($"{flight.FlightNumber,-15} {selectedAirline.Name,-20} {flight.Origin,-15} {flight.Destination,-15} {flight.ExpectedTime,-30}");
     }
 
-    Console.Write("Enter the Flight Number: ");
-    string flightNumber = Console.ReadLine().ToUpper();
-
-    if (!terminal.Flights.ContainsKey(flightNumber))
+    string flightNumber;
+    while (true)
     {
-        Console.WriteLine("Flight does not exist.");
-        return;
+        Console.Write("Enter the Flight Number: ");
+        flightNumber = Console.ReadLine().ToUpper();
+        if (string.IsNullOrEmpty(flightNumber) || !terminal.Flights.ContainsKey(flightNumber))
+        {
+            Console.WriteLine("Invalid Flight Number. Please try again.");
+        }
+        else
+        {
+            break;
+        }
     }
 
     Flight selectedFlight = terminal.Flights[flightNumber];
