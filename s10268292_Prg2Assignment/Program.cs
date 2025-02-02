@@ -117,6 +117,7 @@ void DisplayMenu(Terminal terminal)
             Console.WriteLine("6. Modify Flight Details");
             Console.WriteLine("7. Display Flight Schedule");
             Console.WriteLine("8. Assign flights");
+            Console.WriteLine("9. Display total fees per airline");
             Console.WriteLine("0. Exit");
             Console.Write("Please select your option: ");
             string choice = Console.ReadLine();
